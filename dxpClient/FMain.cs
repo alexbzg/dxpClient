@@ -81,10 +81,16 @@ namespace dxpClient
             if (qsoEr)
                 ProtoBufSerialization.WriteList(qsoFilePath, storedQSOs, false);
             config.data.rafaChanged += rafaChanged;
+            config.data.rdaChanged += rdaChanged;
             gpsReader.locationChanged += locationChanged;
             startGPSReader();
             http = new HTTPService("http://73.ru/dxped/uwsgi/qso", gpsReader, config.data);
             http.connectionStateChanged += onHTTPConnection;
+        }
+
+        private void rdaChanged(object sender, EventArgs e)
+        {
+            qsoFactory.no = blQSO.Where(x => x.rda == config.data.rda).Count() + 1;
         }
 
         private void updateQsoIndex( QSO qso )
@@ -240,37 +246,43 @@ namespace dxpClient
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog.ShowDialog();
-        }
-
-        private void saveFileDialog_FileOk(object sender, CancelEventArgs e)
-        {
-            try
+            if ( folderBrowserDialog.ShowDialog() == DialogResult.OK )
             {
-                using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
-                {
-                    /*
-                    sw.WriteLine("Nr;My Call;Ur Call;Ur RST;My RST;Freq;Mode;RDA;RAFA;Loc;WFF");
-                    foreach (QSO qso in blQSO)
-                        sw.WriteLine(qso.no.ToString() + ";" + qso.myCS + ";" + qso.cs + ";" + qso.rcv + ";" + qso.snt + ";" + qso.freq + ";" + qso.mode + ";" + qso.rda + ";" + qso.rafa + ";" +
-                            qso.loc + ";" + qso.wff);
-                            */
-                    DateTime ts = DateTime.UtcNow;
-                    sw.WriteLine("ADIF Export from DxpClient");
-                    sw.WriteLine("Logs generated @ {0:yyyy-MM-dd HH:mm:ssZ}",ts);
-                    sw.WriteLine("<EOH>");
-                    foreach (QSO qso in blQSO)
-                        sw.WriteLine(qso.adif());
+                blQSO
+                    .GroupBy(x => x.rda)
+                    .ToList()
+                    .ForEach(l =>
+                   {
+                       try
+                       {
+                           string fileName = Path.Combine(folderBrowserDialog.SelectedPath, l.First().rda + ".adif");
+                           using (StreamWriter sw = new StreamWriter(fileName))
+                           {
+                               /*
+                               sw.WriteLine("Nr;My Call;Ur Call;Ur RST;My RST;Freq;Mode;RDA;RAFA;Loc;WFF");
+                               foreach (QSO qso in blQSO)
+                                   sw.WriteLine(qso.no.ToString() + ";" + qso.myCS + ";" + qso.cs + ";" + qso.rcv + ";" + qso.snt + ";" + qso.freq + ";" + qso.mode + ";" + qso.rda + ";" + qso.rafa + ";" +
+                                       qso.loc + ";" + qso.wff);
+                                       */
+                               DateTime ts = DateTime.UtcNow;
+                               sw.WriteLine("ADIF Export from DxpClient");
+                               sw.WriteLine("Logs generated @ {0:yyyy-MM-dd HH:mm:ssZ}", ts);
+                               sw.WriteLine("<EOH>");
+                               foreach (QSO qso in l)
+                                   sw.WriteLine(qso.adif());
 
 
-                }
+                           }
+                       }
+                       catch (Exception ex)
+                       {
+                           System.Diagnostics.Debug.WriteLine(ex.ToString());
+                           MessageBox.Show("Can not export to text file: " + ex.ToString(), "DXpedition", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                       }
+
+
+                   });
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
-                MessageBox.Show("Can not export to text file: " + ex.ToString(), "DXpedition", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
         }
 
         private void FMain_Load(object sender, EventArgs e)
@@ -298,6 +310,12 @@ namespace dxpClient
             else
                 miFilter.Checked = false;
             miFilter.BackColor = miFilter.Checked ? SystemColors.MenuHighlight : DefaultBackColor;
+        }
+
+        private void miStats_Click(object sender, EventArgs e)
+        {
+            FStats fs = new FStats(blQSO.ToList());
+            fs.Show();
         }
     }
 

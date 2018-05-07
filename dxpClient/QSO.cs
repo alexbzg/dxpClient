@@ -78,6 +78,12 @@ namespace dxpClient
                 " ";
         }
 
+        public static string adifFormatFreq( string freq )
+        {
+            return ( Convert.ToDouble(freq, System.Globalization.NumberFormatInfo.InvariantInfo) / 1000 
+                ).ToString( "0.000000", System.Globalization.NumberFormatInfo.InvariantInfo);
+        }
+
         public string adif()
         {
             string[] dt = ts.Split(' ');           
@@ -87,8 +93,8 @@ namespace dxpClient
                 adifField("TIME_ON", dt[1].Replace( ":", "" ) ) +
                 adifField("BAND", band) +
                 adifField("STATION_CALLSIGN", myCS) +
-                adifField("FREQ", freq) +
-                adifField("FREQ_RX", freqRx) +
+                adifField("FREQ", adifFormatFreq(freq )) +
+                adifField("FREQ_RX", adifFormatFreq(freqRx)) +
                 adifField("MODE", mode) +
                 adifField("RST_RCVD", rcv) +
                 adifField("RST_SENT", snt) +
@@ -111,14 +117,7 @@ namespace dxpClient
         public QSOFactory( DXpConfig _settings )
         {
             settings = _settings;
-            settings.rdaChanged += rdaChanged; 
         }
-
-        private void rdaChanged(object sender, EventArgs e)
-        {
-            no = 1;
-        }
-
 
         public QSO create( string xml )
         {

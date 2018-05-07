@@ -35,6 +35,7 @@ namespace dxpClient
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbCSFilter = new System.Windows.Forms.ToolStripTextBox();
             this.miFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.miStats = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvQSO = new System.Windows.Forms.DataGridView();
             this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ts = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,7 +53,7 @@ namespace dxpClient
             this.slConnection = new System.Windows.Forms.ToolStripStatusLabel();
             this.slCoords = new System.Windows.Forms.ToolStripStatusLabel();
             this.slLoc = new System.Windows.Forms.ToolStripStatusLabel();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQSO)).BeginInit();
             this.statusStrip.SuspendLayout();
@@ -64,7 +65,8 @@ namespace dxpClient
             this.miSettings,
             this.exportToolStripMenuItem,
             this.tbCSFilter,
-            this.miFilter});
+            this.miFilter,
+            this.miStats});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1179, 27);
@@ -100,11 +102,21 @@ namespace dxpClient
             this.miFilter.Text = "Filter";
             this.miFilter.Click += new System.EventHandler(this.tbCSFilter_TextChanged);
             // 
+            // miStats
+            // 
+            this.miStats.Name = "miStats";
+            this.miStats.Size = new System.Drawing.Size(44, 23);
+            this.miStats.Text = "Stats";
+            this.miStats.Click += new System.EventHandler(this.miStats_Click);
+            // 
             // dgvQSO
             // 
             this.dgvQSO.AllowUserToAddRows = false;
             this.dgvQSO.AllowUserToDeleteRows = false;
             this.dgvQSO.AllowUserToResizeRows = false;
+            this.dgvQSO.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvQSO.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQSO.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.no,
@@ -119,10 +131,9 @@ namespace dxpClient
             this.loc,
             this.rafa,
             this.wff});
-            this.dgvQSO.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvQSO.Location = new System.Drawing.Point(0, 27);
             this.dgvQSO.Name = "dgvQSO";
-            this.dgvQSO.Size = new System.Drawing.Size(1179, 402);
+            this.dgvQSO.Size = new System.Drawing.Size(1179, 374);
             this.dgvQSO.TabIndex = 1;
             this.dgvQSO.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvQSO_ColumnWidthChanged);
             // 
@@ -230,10 +241,6 @@ namespace dxpClient
             this.slLoc.Name = "slLoc";
             this.slLoc.Size = new System.Drawing.Size(0, 21);
             // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
-            // 
             // FMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,7 +274,6 @@ namespace dxpClient
         private System.Windows.Forms.ToolStripStatusLabel slConnection;
         private System.Windows.Forms.ToolStripStatusLabel slCoords;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.DataGridViewTextBoxColumn no;
         private System.Windows.Forms.DataGridViewTextBoxColumn ts;
         private System.Windows.Forms.DataGridViewTextBoxColumn myCS;
@@ -283,6 +289,8 @@ namespace dxpClient
         private System.Windows.Forms.ToolStripStatusLabel slLoc;
         private System.Windows.Forms.ToolStripTextBox tbCSFilter;
         private System.Windows.Forms.ToolStripMenuItem miFilter;
+        private System.Windows.Forms.ToolStripMenuItem miStats;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }
 

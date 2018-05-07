@@ -1,4 +1,5 @@
-﻿#define FAKE_GPS
+﻿//#define FAKE_GPS
+#define LOG_GPS
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -140,6 +141,11 @@ namespace GPSReaderNS
 
         private void GpsShare_lineReceived(object sender, LineReceivedEventArgs e)
         {
+#if DEBUG
+#if LOG_GPS
+            System.Diagnostics.Debug.WriteLine(e.line);
+#endif
+#endif
             if (e.line.StartsWith("$GPGGA") || e.line.StartsWith("$GNGGA"))
             {
                 System.Diagnostics.Debug.WriteLine(e.line);
