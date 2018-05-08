@@ -49,7 +49,7 @@ namespace dxpClient
         [DataMember, ProtoMember(8)]
         public string rcv { get { return _rcv; } set { _rcv = value; } }
         [DataMember, ProtoMember(9)]
-        public string rda { get { return _rda; } set { _rda = value; } }
+        public string rda { get { return _rda; } set { _rda = value.Trim( ' ' ); } }
         [DataMember, ProtoMember(10)]
         public string wff { get { return _wff; } set { _wff = value; } }
         [DataMember, ProtoMember(11)]

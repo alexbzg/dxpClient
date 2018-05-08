@@ -112,7 +112,6 @@ namespace dxpClient
             // dgvQSO
             // 
             this.dgvQSO.AllowUserToAddRows = false;
-            this.dgvQSO.AllowUserToDeleteRows = false;
             this.dgvQSO.AllowUserToResizeRows = false;
             this.dgvQSO.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 

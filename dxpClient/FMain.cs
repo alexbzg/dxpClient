@@ -232,8 +232,8 @@ namespace dxpClient
             FSettings fs = new FSettings( config.data);
             if ( fs.ShowDialog(this) == DialogResult.OK )
             {
-                config.data.rda = fs.rda;
-                config.data.wff = fs.wwf;                
+                config.data.rda = fs.rda.Trim( ' ' );
+                config.data.wff = fs.wwf.Trim( ' ' );                
                 if (config.data.gpsReaderDeviceID != fs.gpsReaderDeviceID || config.data.gpsReaderWirelessGW != fs.gpsReaderWirelessGW)
                 {
                     config.data.gpsReaderWirelessGW = fs.gpsReaderWirelessGW;
@@ -255,7 +255,7 @@ namespace dxpClient
                    {
                        try
                        {
-                           string fileName = Path.Combine(folderBrowserDialog.SelectedPath, l.First().rda + ".adif");
+                           string fileName = Path.Combine(folderBrowserDialog.SelectedPath, l.First().rda + ".adi");
                            using (StreamWriter sw = new StreamWriter(fileName))
                            {
                                /*
