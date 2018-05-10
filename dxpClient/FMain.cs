@@ -317,6 +317,14 @@ namespace dxpClient
             FStats fs = new FStats(blQSO.ToList());
             fs.Show();
         }
+
+        private void dgvQSO_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            List<QSO> l = blQSO.ToList();
+            l.Reverse();
+            ProtoBufSerialization.WriteList<QSO>(qsoFilePath, l);
+        }
+
     }
 
     [DataContract]

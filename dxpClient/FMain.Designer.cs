@@ -30,12 +30,11 @@ namespace dxpClient
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbCSFilter = new System.Windows.Forms.ToolStripTextBox();
-            this.miFilter = new System.Windows.Forms.ToolStripMenuItem();
-            this.miStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.slConnection = new System.Windows.Forms.ToolStripStatusLabel();
+            this.slCoords = new System.Windows.Forms.ToolStripStatusLabel();
+            this.slLoc = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvQSO = new System.Windows.Forms.DataGridView();
             this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ts = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,65 +48,48 @@ namespace dxpClient
             this.loc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rafa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.wff = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.slConnection = new System.Windows.Forms.ToolStripStatusLabel();
-            this.slCoords = new System.Windows.Forms.ToolStripStatusLabel();
-            this.slLoc = new System.Windows.Forms.ToolStripStatusLabel();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.menuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvQSO)).BeginInit();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbCSFilter = new System.Windows.Forms.ToolStripTextBox();
+            this.miFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.miStats = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvQSO)).BeginInit();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip
+            // statusStrip
             // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miSettings,
-            this.exportToolStripMenuItem,
-            this.tbCSFilter,
-            this.miFilter,
-            this.miStats});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1179, 27);
-            this.menuStrip.TabIndex = 0;
-            this.menuStrip.Text = "menuStrip";
+            this.statusStrip.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.slConnection,
+            this.slCoords,
+            this.slLoc});
+            this.statusStrip.Location = new System.Drawing.Point(0, 403);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(1179, 26);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "statusStrip1";
             // 
-            // miSettings
+            // slConnection
             // 
-            this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(61, 23);
-            this.miSettings.Text = "Settings";
-            this.miSettings.Click += new System.EventHandler(this.miSettings_Click);
+            this.slConnection.ForeColor = System.Drawing.Color.Red;
+            this.slConnection.Name = "slConnection";
+            this.slConnection.Size = new System.Drawing.Size(111, 21);
+            this.slConnection.Text = "No connection";
             // 
-            // exportToolStripMenuItem
+            // slCoords
             // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 23);
-            this.exportToolStripMenuItem.Text = "Export";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            this.slCoords.Name = "slCoords";
+            this.slCoords.Size = new System.Drawing.Size(98, 21);
+            this.slCoords.Text = "No GPS data";
             // 
-            // tbCSFilter
+            // slLoc
             // 
-            this.tbCSFilter.AutoToolTip = true;
-            this.tbCSFilter.Name = "tbCSFilter";
-            this.tbCSFilter.Size = new System.Drawing.Size(100, 23);
-            this.tbCSFilter.ToolTipText = "Callsign filter";
-            // 
-            // miFilter
-            // 
-            this.miFilter.CheckOnClick = true;
-            this.miFilter.Name = "miFilter";
-            this.miFilter.Size = new System.Drawing.Size(45, 23);
-            this.miFilter.Text = "Filter";
-            this.miFilter.Click += new System.EventHandler(this.tbCSFilter_TextChanged);
-            // 
-            // miStats
-            // 
-            this.miStats.Name = "miStats";
-            this.miStats.Size = new System.Drawing.Size(44, 23);
-            this.miStats.Text = "Stats";
-            this.miStats.Click += new System.EventHandler(this.miStats_Click);
+            this.slLoc.ForeColor = System.Drawing.Color.Red;
+            this.slLoc.Name = "slLoc";
+            this.slLoc.Size = new System.Drawing.Size(0, 21);
             // 
             // dgvQSO
             // 
@@ -130,11 +112,13 @@ namespace dxpClient
             this.loc,
             this.rafa,
             this.wff});
+            this.dgvQSO.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.dgvQSO.Location = new System.Drawing.Point(0, 27);
             this.dgvQSO.Name = "dgvQSO";
             this.dgvQSO.Size = new System.Drawing.Size(1179, 374);
             this.dgvQSO.TabIndex = 1;
             this.dgvQSO.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvQSO_ColumnWidthChanged);
+            this.dgvQSO.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgvQSO_UserDeletedRow);
             // 
             // no
             // 
@@ -208,37 +192,55 @@ namespace dxpClient
             this.wff.HeaderText = "WFF";
             this.wff.Name = "wff";
             // 
-            // statusStrip
+            // menuStrip
             // 
-            this.statusStrip.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.slConnection,
-            this.slCoords,
-            this.slLoc});
-            this.statusStrip.Location = new System.Drawing.Point(0, 403);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1179, 26);
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "statusStrip1";
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miSettings,
+            this.exportToolStripMenuItem,
+            this.tbCSFilter,
+            this.miFilter,
+            this.miStats});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(1179, 27);
+            this.menuStrip.TabIndex = 0;
+            this.menuStrip.Text = "menuStrip";
             // 
-            // slConnection
+            // miSettings
             // 
-            this.slConnection.ForeColor = System.Drawing.Color.Red;
-            this.slConnection.Name = "slConnection";
-            this.slConnection.Size = new System.Drawing.Size(111, 21);
-            this.slConnection.Text = "No connection";
+            this.miSettings.Name = "miSettings";
+            this.miSettings.Size = new System.Drawing.Size(61, 23);
+            this.miSettings.Text = "Settings";
+            this.miSettings.Click += new System.EventHandler(this.miSettings_Click);
             // 
-            // slCoords
+            // exportToolStripMenuItem
             // 
-            this.slCoords.Name = "slCoords";
-            this.slCoords.Size = new System.Drawing.Size(98, 21);
-            this.slCoords.Text = "No GPS data";
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 23);
+            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
-            // slLoc
+            // tbCSFilter
             // 
-            this.slLoc.ForeColor = System.Drawing.Color.Red;
-            this.slLoc.Name = "slLoc";
-            this.slLoc.Size = new System.Drawing.Size(0, 21);
+            this.tbCSFilter.AutoToolTip = true;
+            this.tbCSFilter.Name = "tbCSFilter";
+            this.tbCSFilter.Size = new System.Drawing.Size(100, 23);
+            this.tbCSFilter.ToolTipText = "Callsign filter";
+            // 
+            // miFilter
+            // 
+            this.miFilter.CheckOnClick = true;
+            this.miFilter.Name = "miFilter";
+            this.miFilter.Size = new System.Drawing.Size(45, 23);
+            this.miFilter.Text = "Filter";
+            this.miFilter.Click += new System.EventHandler(this.tbCSFilter_TextChanged);
+            // 
+            // miStats
+            // 
+            this.miStats.Name = "miStats";
+            this.miStats.Size = new System.Drawing.Size(44, 23);
+            this.miStats.Text = "Stats";
+            this.miStats.Click += new System.EventHandler(this.miStats_Click);
             // 
             // FMain
             // 
@@ -253,11 +255,11 @@ namespace dxpClient
             this.Text = "DXpedition";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FMain_FormClosing);
             this.Load += new System.EventHandler(this.FMain_Load);
-            this.menuStrip.ResumeLayout(false);
-            this.menuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvQSO)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvQSO)).EndInit();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

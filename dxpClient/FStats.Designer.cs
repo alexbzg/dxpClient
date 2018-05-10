@@ -31,6 +31,7 @@
             this.dgvStats = new System.Windows.Forms.DataGridView();
             this.rda = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.qsoCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStats)).BeginInit();
             this.SuspendLayout();
             // 
@@ -39,11 +40,12 @@
             this.dgvStats.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStats.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.rda,
-            this.qsoCount});
+            this.qsoCount,
+            this.CS});
             this.dgvStats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvStats.Location = new System.Drawing.Point(0, 0);
             this.dgvStats.Name = "dgvStats";
-            this.dgvStats.Size = new System.Drawing.Size(245, 308);
+            this.dgvStats.Size = new System.Drawing.Size(363, 308);
             this.dgvStats.TabIndex = 0;
             // 
             // rda
@@ -58,11 +60,17 @@
             this.qsoCount.HeaderText = "QSO";
             this.qsoCount.Name = "qsoCount";
             // 
+            // CS
+            // 
+            this.CS.DataPropertyName = "csCount";
+            this.CS.HeaderText = "Calls";
+            this.CS.Name = "CS";
+            // 
             // FStats
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(245, 308);
+            this.ClientSize = new System.Drawing.Size(363, 308);
             this.Controls.Add(this.dgvStats);
             this.Name = "FStats";
             this.Text = "FStats";
@@ -76,5 +84,6 @@
         private System.Windows.Forms.DataGridView dgvStats;
         private System.Windows.Forms.DataGridViewTextBoxColumn rda;
         private System.Windows.Forms.DataGridViewTextBoxColumn qsoCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CS;
     }
 }

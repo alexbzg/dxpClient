@@ -18,6 +18,8 @@ namespace dxpClient
             public string rda { get { return _rda; } set { _rda = value; } }
             internal int _qsoCount;
             public int qsoCount { get { return _qsoCount; } set { _qsoCount = value; } }
+            internal int _csCount;
+            public int csCount { get { return _csCount; } set { _csCount = value; } }
         }
 
         BindingList<Entry> blStats = new BindingList<Entry>();
@@ -36,7 +38,8 @@ namespace dxpClient
                 .Select(cx => new Entry
                 {
                     _rda = cx.First().rda,
-                    _qsoCount = cx.Count()
+                    _qsoCount = cx.Count(),
+                    _csCount = cx.GroupBy( x => x.cs ).Count()
                 })
                 .OrderBy( x => x.rda )
                 .ToList()
