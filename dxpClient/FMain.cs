@@ -403,7 +403,10 @@ namespace dxpClient
                         {
                             string[] keys = lineData[3].Split(',');
                             foreach (string key in keys)
-                                rafaData[key] = lineData[1];
+                                if (rafaData.ContainsKey(key))
+                                    rafaData[key] += ", " + lineData[1];
+                                else
+                                    rafaData[key] = lineData[1];
                         }
                     } while (sr.Peek() >= 0);
 
