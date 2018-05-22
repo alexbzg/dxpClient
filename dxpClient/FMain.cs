@@ -246,43 +246,7 @@ namespace dxpClient
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ( folderBrowserDialog.ShowDialog() == DialogResult.OK )
-            {
-                blQSO
-                    .GroupBy(x => x.rda)
-                    .ToList()
-                    .ForEach(l =>
-                   {
-                       try
-                       {
-                           string fileName = Path.Combine(folderBrowserDialog.SelectedPath, l.First().rda + ".adi");
-                           using (StreamWriter sw = new StreamWriter(fileName))
-                           {
-                               /*
-                               sw.WriteLine("Nr;My Call;Ur Call;Ur RST;My RST;Freq;Mode;RDA;RAFA;Loc;WFF");
-                               foreach (QSO qso in blQSO)
-                                   sw.WriteLine(qso.no.ToString() + ";" + qso.myCS + ";" + qso.cs + ";" + qso.rcv + ";" + qso.snt + ";" + qso.freq + ";" + qso.mode + ";" + qso.rda + ";" + qso.rafa + ";" +
-                                       qso.loc + ";" + qso.wff);
-                                       */
-                               DateTime ts = DateTime.UtcNow;
-                               sw.WriteLine("ADIF Export from DxpClient");
-                               sw.WriteLine("Logs generated @ {0:yyyy-MM-dd HH:mm:ssZ}", ts);
-                               sw.WriteLine("<EOH>");
-                               foreach (QSO qso in l)
-                                   sw.WriteLine(qso.adif());
 
-
-                           }
-                       }
-                       catch (Exception ex)
-                       {
-                           System.Diagnostics.Debug.WriteLine(ex.ToString());
-                           MessageBox.Show("Can not export to text file: " + ex.ToString(), "DXpedition", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                       }
-
-
-                   });
-            }
         }
 
         private void FMain_Load(object sender, EventArgs e)
@@ -325,6 +289,58 @@ namespace dxpClient
             ProtoBufSerialization.WriteList<QSO>(qsoFilePath, l);
         }
 
+        private void miExportRDA_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                blQSO
+                    .GroupBy(x => x.rda)
+                    .ToList()
+                    .ForEach(l =>
+                        writeADIF(Path.Combine(folderBrowserDialog.SelectedPath, l.First().rda + ".adi"), l.ToList(), new Dictionary<string, string>()));
+            }
+        }
+
+        private void miExportRAFA_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                config.data.rafaValues.ToList().ForEach(val =>
+               {
+                   List<QSO> qsos = blQSO.Where(x => x.rafa != null && x.rafa.Contains(val)).ToList();
+                   if (qsos.Count > 0)
+                        writeADIF(Path.Combine(folderBrowserDialog.SelectedPath, val + ".adi"), qsos, new Dictionary<string, string>() { { "RAFA", val } });
+               });
+            }
+        }
+
+        private void writeADIF( string fileName, List<QSO> data, Dictionary<string,string> adifParams)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(fileName))
+                {
+                    /*
+                    sw.WriteLine("Nr;My Call;Ur Call;Ur RST;My RST;Freq;Mode;RDA;RAFA;Loc;WFF");
+                    foreach (QSO qso in blQSO)
+                        sw.WriteLine(qso.no.ToString() + ";" + qso.myCS + ";" + qso.cs + ";" + qso.rcv + ";" + qso.snt + ";" + qso.freq + ";" + qso.mode + ";" + qso.rda + ";" + qso.rafa + ";" +
+                            qso.loc + ";" + qso.wff);
+                            */
+                    DateTime ts = DateTime.UtcNow;
+                    sw.WriteLine("ADIF Export from DxpClient");
+                    sw.WriteLine("Logs generated @ {0:yyyy-MM-dd HH:mm:ssZ}", ts);
+                    sw.WriteLine("<EOH>");
+                    foreach (QSO qso in data)
+                        sw.WriteLine(qso.adif( adifParams ) );
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                MessageBox.Show("Can not export to text file: " + ex.ToString(), "DXpedition", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 
     [DataContract]
@@ -346,7 +362,9 @@ namespace dxpClient
         public bool gpsReaderWirelessGW;
 
         [XmlIgnore]
-        Dictionary<string, string> rafaData = new Dictionary<string, string>();
+        public Dictionary<string, string> rafaData = new Dictionary<string, string>();
+        [XmlIgnore]
+        public HashSet<string> rafaValues = new HashSet<string>();
         [XmlIgnore]
         string _rafa;
         [DataMember]
@@ -401,12 +419,19 @@ namespace dxpClient
                         string[] lineData = line.Split(';');
                         if ( lineData[0] ==  "" ) 
                         {
+
+
                             string[] keys = lineData[3].Split(',');
                             foreach (string key in keys)
+                            {
+                                string entry = lineData[1];
                                 if (rafaData.ContainsKey(key))
-                                    rafaData[key] += ", " + lineData[1];
+                                    rafaData[key] += ", " + entry;
                                 else
-                                    rafaData[key] = lineData[1];
+                                    rafaData[key] = entry;
+                                if (!rafaValues.Contains(entry))
+                                    rafaValues.Add(entry);
+                            }
                         }
                     } while (sr.Peek() >= 0);
 

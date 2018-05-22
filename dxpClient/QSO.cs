@@ -84,7 +84,7 @@ namespace dxpClient
                 ).ToString( "0.000000", System.Globalization.NumberFormatInfo.InvariantInfo);
         }
 
-        public string adif()
+        public string adif( Dictionary<string,string> adifParams)
         {
             string[] dt = ts.Split(' ');           
             return
@@ -99,9 +99,9 @@ namespace dxpClient
                 adifField("RST_RCVD", rcv) +
                 adifField("RST_SENT", snt) +
                 adifField("OPERATOR", oper) + 
-                adifField("GRIDSQUARE", loc) +
+                adifField("GRIDSQUARE", loc) +                
                 adifField("RDA",rda) +
-                adifField("RAFA",rafa) +
+                adifField("RAFA", adifParams.ContainsKey( "RAFA" ) ? adifParams["RAFA"] : rafa )  +
                 adifField("WFF",wff) +
                 " <EOR>";
         }

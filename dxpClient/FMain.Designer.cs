@@ -51,6 +51,8 @@ namespace dxpClient
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miExportRDA = new System.Windows.Forms.ToolStripMenuItem();
+            this.miExportRAFA = new System.Windows.Forms.ToolStripMenuItem();
             this.tbCSFilter = new System.Windows.Forms.ToolStripTextBox();
             this.miFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.miStats = new System.Windows.Forms.ToolStripMenuItem();
@@ -215,10 +217,26 @@ namespace dxpClient
             // 
             // exportToolStripMenuItem
             // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miExportRDA,
+            this.miExportRAFA});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 23);
             this.exportToolStripMenuItem.Text = "Export";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            // 
+            // miExportRDA
+            // 
+            this.miExportRDA.Name = "miExportRDA";
+            this.miExportRDA.Size = new System.Drawing.Size(180, 22);
+            this.miExportRDA.Text = "RDA";
+            this.miExportRDA.Click += new System.EventHandler(this.miExportRDA_Click);
+            // 
+            // miExportRAFA
+            // 
+            this.miExportRAFA.Name = "miExportRAFA";
+            this.miExportRAFA.Size = new System.Drawing.Size(180, 22);
+            this.miExportRAFA.Text = "RAFA";
+            this.miExportRAFA.Click += new System.EventHandler(this.miExportRAFA_Click);
             // 
             // tbCSFilter
             // 
@@ -292,6 +310,8 @@ namespace dxpClient
         private System.Windows.Forms.ToolStripMenuItem miFilter;
         private System.Windows.Forms.ToolStripMenuItem miStats;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.ToolStripMenuItem miExportRDA;
+        private System.Windows.Forms.ToolStripMenuItem miExportRAFA;
     }
 }
 
