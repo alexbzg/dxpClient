@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.dgvStats = new System.Windows.Forms.DataGridView();
-            this.rda = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.qsoCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStats)).BeginInit();
@@ -39,7 +39,7 @@
             // 
             this.dgvStats.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStats.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.rda,
+            this.value,
             this.qsoCount,
             this.CS});
             this.dgvStats.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -48,11 +48,11 @@
             this.dgvStats.Size = new System.Drawing.Size(363, 308);
             this.dgvStats.TabIndex = 0;
             // 
-            // rda
+            // value
             // 
-            this.rda.DataPropertyName = "rda";
-            this.rda.HeaderText = "RDA";
-            this.rda.Name = "rda";
+            this.value.DataPropertyName = "value";
+            this.value.HeaderText = "Value";
+            this.value.Name = "value";
             // 
             // qsoCount
             // 
@@ -82,7 +82,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvStats;
-        private System.Windows.Forms.DataGridViewTextBoxColumn rda;
+        private System.Windows.Forms.DataGridViewTextBoxColumn value;
         private System.Windows.Forms.DataGridViewTextBoxColumn qsoCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn CS;
     }

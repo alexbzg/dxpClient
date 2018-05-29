@@ -276,12 +276,6 @@ namespace dxpClient
             miFilter.BackColor = miFilter.Checked ? SystemColors.MenuHighlight : DefaultBackColor;
         }
 
-        private void miStats_Click(object sender, EventArgs e)
-        {
-            FStats fs = new FStats(blQSO.ToList());
-            fs.Show();
-        }
-
         private void dgvQSO_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
             List<QSO> l = blQSO.ToList();
@@ -305,11 +299,22 @@ namespace dxpClient
         {
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                config.data.rafaValues.ToList().ForEach(val =>
+                Dictionary<string, List<QSO>> data = new Dictionary<string, List<QSO>>();
+                blQSO
+                    .Where(qso => qso.rafa != null).ToList()
+                    .ForEach(qso =>
+                    {
+                        string[] rafas = qso.rafa.Split(new string[] { ", " }, StringSplitOptions.None);
+                        foreach (string rafa in rafas)
+                        {
+                            if (!data.ContainsKey(rafa))
+                                data[rafa] = new List<QSO>();
+                            data[rafa].Add(qso);
+                        }
+                    });
+                data.Keys.ToList().ForEach( val =>
                {
-                   List<QSO> qsos = blQSO.Where(x => x.rafa != null && x.rafa.Contains(val)).ToList();
-                   if (qsos.Count > 0)
-                        writeADIF(Path.Combine(folderBrowserDialog.SelectedPath, val + ".adi"), qsos, new Dictionary<string, string>() { { "RAFA", val } });
+                    writeADIF(Path.Combine(folderBrowserDialog.SelectedPath, val + ".adi"), data[val], new Dictionary<string, string>() { { "RAFA", val } });
                });
             }
         }
@@ -340,6 +345,16 @@ namespace dxpClient
                 MessageBox.Show("Can not export to text file: " + ex.ToString(), "DXpedition", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private void miStatsRDA_Click(object sender, EventArgs e)
+        {
+            new FStats(blQSO.ToList(), "RDA", null).Show();
+        }
+
+        private void miStatsRAFA_Click(object sender, EventArgs e)
+        {
+            new FStats(blQSO.ToList(), "RAFA", config.data.rafaValues.ToList()).Show();
         }
     }
 
